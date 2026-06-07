@@ -1,0 +1,118 @@
+alert("        Lanchonete IFAM        ")
+
+let cliente = prompt("Digite o nome do cliente")
+
+// Vetor de produtos
+let produtos = [
+    { nome: "Pastel de carne", preco: 4 },
+    { nome: "Pizza", preco: 6 },
+    { nome: "Quibe", preco: 5 },
+    { nome: "Coxinha", preco: 4 },
+    { nome: "Refrigerante", preco: 6 }
+]
+
+// Vetor do pedido
+let pedido = []
+
+let continuar = true
+
+while(continuar){
+
+    // Menu
+    let menu = "Escolha um produto:\n"
+
+    for(let i = 0; i < produtos.length; i++){
+        menu += `${i + 1} - ${produtos[i].nome} = R$ ${produtos[i].preco}\n`
+    }
+
+    menu += "0 - Finalizar pedido"
+
+    let opcao = Number(prompt(menu))
+
+    // Finalizar
+    if(opcao === 0){
+        continuar = false
+        break
+    }
+
+    // Verifica se existe
+    if(opcao >= 1 && opcao <= produtos.length){
+
+        let quantidade = Number(
+            prompt("Digite a quantidade")
+        )
+
+        let produtoEscolhido = produtos[opcao - 1]
+
+        // Guarda no vetor pedido
+        pedido.push({
+            nome: produtoEscolhido.nome,
+            preco: produtoEscolhido.preco,
+            quantidade: quantidade,
+            subtotal: produtoEscolhido.preco * quantidade
+        })
+
+    } else {
+        alert("Opção inválida")
+    }
+}
+
+// Calculando total
+let total = 0
+let resumo = `Cliente: ${cliente}\n\n`
+
+for(let item of pedido){
+
+    resumo +=
+    `${item.nome}\n` +
+    `Quantidade: ${item.quantidade}\n` +
+    `Subtotal: R$ ${item.subtotal}\n\n`
+
+    total += item.subtotal
+}
+
+// Desconto
+let desconto = 0
+
+if(total >= 50){
+    desconto = total * 0.10
+}
+
+let totalFinal = total - desconto
+
+// Pagamento
+let pagamento = prompt(
+    "Forma de pagamento:\n" +
+    "1 - Dinheiro\n" +
+    "2 - Pix\n" +
+    "3 - Cartão"
+)
+
+let formaPagamento = ""
+
+switch(pagamento){
+
+    case '1':
+        formaPagamento = "Dinheiro"
+        break
+
+    case '2':
+        formaPagamento = "Pix"
+        break
+
+    case '3':
+        formaPagamento = "Cartão"
+        break
+
+    default:
+        formaPagamento = "Não informado"
+}
+
+// Resultado final
+alert(
+    resumo +
+    "Total: R$ " + total.toFixed(2) + "\n" +
+    "Desconto: R$ " + desconto.toFixed(2) + "\n" +
+    "Total Final: R$ " + totalFinal.toFixed(2) + "\n" +
+    "Pagamento: " + formaPagamento
+)
